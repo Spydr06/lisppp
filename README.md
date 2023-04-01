@@ -1,6 +1,6 @@
 # A scuffed little Lisp interpreter written in C++
 
-This is a little project I wrote to get experience in using C++. Don't use this for actual programs.
+This is a little project I wrote to get experience in using C++ in about 5 hours. Don't use this for actual programs.
 
 ## Building
 
