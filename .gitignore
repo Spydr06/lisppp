@@ -4,3 +4,4 @@ build/
 *.a
 *.so
 lisp-interp
+vgcore.*

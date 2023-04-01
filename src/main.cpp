@@ -10,6 +10,8 @@
 #include <cstring>
 
 #include "parser.hpp"
+#include "context.hpp"
+#include "value.hpp"
 
 void panic(const char* msg) {
     std::cerr << "[Panic]: " << msg << std::endl;
@@ -27,23 +29,20 @@ int main(int argc, char* argv[]) {
         panic(strerror(errno));
     }
     
-    std::vector<lisp::Value*> values;
+    auto root = std::make_unique<lisp::CompoundValue>();
 
     while(true) {
         auto result = lisp::parse(file);
-        if(auto error = result->is_error()) {
+        if(auto error = result->is_error())
             panic(error.value()->c_str());
-        }
-        result->print(std::cout);
-        std::cout << std::endl;
-        if(result->is_eof()) {
+
+        if(result->is_eof())
             break;
-        }
-        values.push_back(result.release());
+        root->add_value(result);
     }
 
-    for(auto* value : values)
-        delete value;
+    auto context = lisp::Context();
+    root->eval(context);
 
     file.close();
     return 0;
