@@ -1,12 +1,11 @@
 #pragma once
-#include <functional>
+
 #include <ostream>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 #include <optional>
-#include <iostream>
 #include <memory>
 
 #define ERROR(reason) std::make_shared<ErrorValue>((reason))

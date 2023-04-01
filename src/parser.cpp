@@ -1,12 +1,7 @@
+#include <sstream>
+
 #include "parser.hpp"
 #include "value.hpp"
-#include <cctype>
-#include <fstream>
-#include <memory>
-#include <sstream>
-#include <variant>
-#include <iostream>
-#include <vector>
 
 namespace lisp {
     inline bool is_ident_char(char c) {

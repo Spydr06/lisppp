@@ -1,4 +1,4 @@
-INTERPRETER_BIN := lisp-interp
+INTERPRETER_BIN := lisppp
 
 BUILDDIR := ./build
 

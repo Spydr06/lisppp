@@ -1,8 +1,6 @@
 #pragma once
 
 #include <fstream>
-#include <memory>
-
 #include "value.hpp"
 
 namespace lisp {

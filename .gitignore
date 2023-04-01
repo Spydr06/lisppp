@@ -3,5 +3,5 @@ build/
 *.out
 *.a
 *.so
-lisp-interp
+lisppp
 vgcore.*

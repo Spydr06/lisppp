@@ -1,8 +1,4 @@
 #include "value.hpp"
-#include <memory>
-#include <iostream>
-#include <map>
-
 #include "builtin.hpp"
 
 namespace lisp {
