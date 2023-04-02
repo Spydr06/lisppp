@@ -21,10 +21,11 @@ int main(int argc, char* argv[]) {
         panic(strerror(errno));
     }
     
+    auto context = lisp::Context();
     auto root = std::make_unique<lisp::CompoundValue>();
 
     while(true) {
-        auto result = lisp::parse(file);
+        auto result = lisp::parse(file, context);
         if(auto error = result->is_error())
             panic(error.value()->c_str());
 
@@ -33,7 +34,6 @@ int main(int argc, char* argv[]) {
         root->add_value(result);
     }
 
-    auto context = lisp::Context();
     root->eval(context);
 
     file.close();

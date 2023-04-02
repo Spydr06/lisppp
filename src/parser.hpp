@@ -4,5 +4,5 @@
 #include "value.hpp"
 
 namespace lisp {
-    std::shared_ptr<Value> parse(std::ifstream& input);
+    std::shared_ptr<Value> parse(std::ifstream& input, Context& context);
 }

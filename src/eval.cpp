@@ -10,12 +10,12 @@ namespace lisp {
         return std::make_shared<EofValue>();
     }
 
-    std::shared_ptr<Value> StringValue::eval(Context& ) {
-        return std::make_shared<StringValue>(m_Value);
+    std::shared_ptr<Value> StringValue::eval(Context& context) {
+        return context.get_string(m_Value);
     }
 
-    std::shared_ptr<Value> NumberValue::eval(Context& ) {
-        return std::make_shared<NumberValue>(m_Value);
+    std::shared_ptr<Value> NumberValue::eval(Context& context) {
+        return context.get_number(m_Value);
     }
 
     std::shared_ptr<Value> IdentValue::eval(Context& context) {
@@ -69,7 +69,7 @@ namespace lisp {
         return m_Body->eval(context);
     }
 
-    std::shared_ptr<Value> ConstValue::eval(Context&) {
-        return std::make_shared<ConstValue>(this);
+    std::shared_ptr<Value> ConstValue::eval(Context& context) {
+        return context.get_const_val(m_Kind);
     }
 }

@@ -7,7 +7,7 @@ namespace lisp {
             for(uint64_t i = 1; i < args.size(); i++)
                 args[i]->eval(context)->print(std::cout) << ' ';
             std::cout << std::endl;
-            return NIL();
+            return context.get_const_val(ConstValue::Kind::Nil);
         }
 
         std::shared_ptr<Value> setq(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -22,7 +22,7 @@ namespace lisp {
             auto second = args[2]->eval(context);
             context.add_symbol(ident.get_name(), second);
 
-            return NIL();
+            return context.get_const_val(ConstValue::Kind::Nil);
         }
 
         std::shared_ptr<Value> defun(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -53,7 +53,7 @@ namespace lisp {
 
             context.add_symbol(ident.get_name(), std::make_shared<FunctionValue>(ident.get_name(), argument_names, body));
             
-            return NIL();
+            return context.get_const_val(ConstValue::Kind::Nil);
         }
 
         std::shared_ptr<Value> eq(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -64,9 +64,9 @@ namespace lisp {
 
             for(uint64_t i = 2; i < args.size(); i++) {
                 if(!(args[i]->eval(context)->equals(first)))
-                    return F();
+                    return context.get_const_val(ConstValue::Kind::F);
             }
-            return T();
+            return context.get_const_val(ConstValue::Kind::T);
         }
 
         std::shared_ptr<Value> cond(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -112,7 +112,7 @@ namespace lisp {
                 total += dynamic_cast<NumberValue&>(*arg).value();
             }
 
-            return NUMBER(total);
+            return context.get_number(total);
         }
 
         std::shared_ptr<Value> subtract(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -129,7 +129,7 @@ namespace lisp {
                 total -= dynamic_cast<NumberValue&>(*arg).value();
             }
 
-            return NUMBER(total);
+            return context.get_number(total);
         }
 
         std::shared_ptr<Value> multiply(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -146,7 +146,7 @@ namespace lisp {
                 total *= dynamic_cast<NumberValue&>(*arg).value();
             }
 
-            return NUMBER(total);
+            return context.get_number(total);
         }
 
         std::shared_ptr<Value> divide(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -163,7 +163,7 @@ namespace lisp {
                 total /= dynamic_cast<NumberValue&>(*arg).value();
             }
 
-            return NUMBER(total);
+            return context.get_number(total);
         }
 
         std::shared_ptr<Value> lt(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -179,8 +179,8 @@ namespace lisp {
                 return ERROR("`<` only operates on numbers");
             
             if(dynamic_cast<NumberValue&>(*first).value() < dynamic_cast<NumberValue&>(*second).value())
-                return T();
-            return F();
+                return context.get_const_val(ConstValue::Kind::T);
+            return context.get_const_val(ConstValue::Kind::F);
         }
 
         std::shared_ptr<Value> gt(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -196,8 +196,8 @@ namespace lisp {
                 return ERROR("`>` only operates on numbers");
             
             if(dynamic_cast<NumberValue&>(*first).value() > dynamic_cast<NumberValue&>(*second).value())
-                return T();
-            return F();
+                return context.get_const_val(ConstValue::Kind::T);
+            return context.get_const_val(ConstValue::Kind::F);
         }
 
         std::shared_ptr<Value> lt_eq(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -213,8 +213,8 @@ namespace lisp {
                 return ERROR("`<=` only operates on numbers");
             
             if(dynamic_cast<NumberValue&>(*first).value() <= dynamic_cast<NumberValue&>(*second).value())
-                return T();
-            return F();
+                return context.get_const_val(ConstValue::Kind::T);
+            return context.get_const_val(ConstValue::Kind::F);
         }
 
         std::shared_ptr<Value> gt_eq(Context& context, std::vector<std::shared_ptr<Value>>& args) {
@@ -230,8 +230,8 @@ namespace lisp {
                 return ERROR("`>=` only operates on numbers");
             
             if(dynamic_cast<NumberValue&>(*first).value() >= dynamic_cast<NumberValue&>(*second).value())
-                return T();
-            return F();
+                return context.get_const_val(ConstValue::Kind::T);
+            return context.get_const_val(ConstValue::Kind::F);
         }
     }
 

@@ -9,10 +9,6 @@
 #include <memory>
 
 #define ERROR(reason) std::make_shared<ErrorValue>((reason))
-#define NIL() std::make_shared<ConstValue>(ConstValue::Kind::Nil)
-#define T() std::make_shared<ConstValue>(ConstValue::Kind::T)
-#define F() std::make_shared<ConstValue>(ConstValue::Kind::F)
-#define NUMBER(num) std::make_shared<NumberValue>((num))
 
 #ifndef __LISP_VALUES
 #define __LISP_VALUES
@@ -41,8 +37,9 @@ namespace lisp {
         virtual std::shared_ptr<Value> eval(Context& context) = 0;
         virtual bool equals(std::shared_ptr<Value> other) = 0;
 
-        virtual std::optional<std::shared_ptr<std::string>> is_error() const { return std::nullopt; };
-        virtual bool is_eof() const { return false; };
+        virtual std::optional<std::shared_ptr<std::string>> is_error() const { return std::nullopt; }
+        virtual bool is_eof() const { return false; }
+        virtual bool is_const() const { return false; }
     private:
     };
 
@@ -96,6 +93,8 @@ namespace lisp {
         virtual bool equals(std::shared_ptr<Value> other) override {
             return other->kind() == ValueKind::Eof;
         }
+
+        virtual bool is_const() const { return true; }
     };
 
     // "foo"
@@ -113,6 +112,8 @@ namespace lisp {
                 return false;
             return m_Value == dynamic_cast<StringValue&>(*other).m_Value;
         }
+
+        virtual bool is_const() const { return true; }
 
     private:
         std::string m_Value;
@@ -139,6 +140,8 @@ namespace lisp {
         }
 
         int64_t value() const { return m_Value; }
+
+        virtual bool is_const() const { return true; }
 
     private:
         int64_t m_Value;

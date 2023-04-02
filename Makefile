@@ -7,7 +7,7 @@ OBJECTS := $(patsubst %, $(BUILDDIR)/%.o, $(SOURCES))
 
 LD = g++
 CXX = g++
-CXXFLAGS = -Wall -Wextra -c -g
+CXXFLAGS = -Wall -Wextra -c -g -O3
 
 .PHONY:
 all: $(INTERPRETER_BIN)
